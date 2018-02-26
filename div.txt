@@ -1,0 +1,5 @@
+https://gist.github.com/qawemlilo/5684696
+https://www.npmjs.com/package/feed
+https://www.npmjs.com/package/aws-sdk (npm install aws-sdk)
+https://www.npmjs.com/package/node-lambda
+https://medium.com/@anaptfox/getting-started-with-amazon-polly-using-node-js-345e84dbd23d

@@ -1,0 +1,31 @@
+{
+  "name": "gh-aws",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "babel ./lib/parrot/src/index.js > ./lib/parrot/index.js && node test.js",
+    "start": "node index.js",
+    "prepare": "babel ./lib/parrot/src/index.js > ./lib/parrot/index.js",
+    "watch": "babel-watch -w ./lib/parrot/ test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-watch": "^2.0.7",
+    "jslint": "^0.12.0"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.202.0",
+    "he": "^1.1.1",
+    "jssoup": "0.0.6",
+    "md5": "^2.2.1"
+  }
+}
