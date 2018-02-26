@@ -3,3 +3,5 @@ https://www.npmjs.com/package/feed
 https://www.npmjs.com/package/aws-sdk (npm install aws-sdk)
 https://www.npmjs.com/package/node-lambda
 https://medium.com/@anaptfox/getting-started-with-amazon-polly-using-node-js-345e84dbd23d
+http://docs.amazonaws.cn/en_us/AWSJavaScriptSDK/guide/node-examples.html
+https://www.w3schools.com/nodejs/met_buffer_concat.asp
