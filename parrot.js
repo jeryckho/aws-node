@@ -128,16 +128,58 @@ var Parrot = function () {
       });
     }
   }, {
-    key: "saveToBucket",
-    value: function saveToBucket() {
+    key: "checkInBucket",
+    value: function checkInBucket() {
       var _ref5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
       var _ref5$bucket = _ref5.bucket,
           bucket = _ref5$bucket === undefined ? "test-jchery" : _ref5$bucket,
-          mp3 = _ref5.mp3,
           md5 = _ref5.md5,
           uid = _ref5.uid,
-          rest = _objectWithoutProperties(_ref5, ["bucket", "mp3", "md5", "uid"]);
+          rest = _objectWithoutProperties(_ref5, ["bucket", "md5", "uid"]);
+
+      var s3Bucket = new S3({
+        params: { Bucket: bucket },
+        apiVersion: "2006-03-01",
+        region: "eu-west-1"
+      });
+      var name = uid ? uid : md5;
+      var link = "http://" + bucket + ".s3-website.eu-west-1.amazonaws.com/" + name + ".mp3";
+
+      return new Promise(function (resolve, reject) {
+        s3Bucket.headObject({ Key: name + ".mp3" }, function (error, s3Object) {
+          if (!error) {
+            return resolve(_extends({
+              found: true,
+              bucket: bucket,
+              link: link,
+              md5: md5,
+              uid: uid
+            }, rest));
+          }
+          if (error.code === "NotFound") {
+            return resolve(_extends({
+              found: false,
+              bucket: bucket,
+              md5: md5,
+              uid: uid
+            }, rest));
+          }
+          return reject(error);
+        });
+      });
+    }
+  }, {
+    key: "saveToBucket",
+    value: function saveToBucket() {
+      var _ref6 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      var _ref6$bucket = _ref6.bucket,
+          bucket = _ref6$bucket === undefined ? "test-jchery" : _ref6$bucket,
+          mp3 = _ref6.mp3,
+          md5 = _ref6.md5,
+          uid = _ref6.uid,
+          rest = _objectWithoutProperties(_ref6, ["bucket", "mp3", "md5", "uid"]);
 
       var s3Bucket = new S3({
         params: { Bucket: bucket },
@@ -149,14 +191,16 @@ var Parrot = function () {
       var link = "http://" + bucket + ".s3-website.eu-west-1.amazonaws.com/" + name + ".mp3";
 
       return new Promise(function (resolve, reject) {
-        s3Bucket.putObject({ Key: name + '.mp3', Body: mp3 }, function (error, s3Object) {
+        s3Bucket.putObject({ Key: name + ".mp3", Body: mp3 }, function (error, s3Object) {
           if (error) {
             return reject(error);
           }
           return resolve(_extends({
             bucket: bucket,
             s3Object: s3Object,
-            link: link
+            link: link,
+            md5: md5,
+            uid: uid
           }, rest));
         });
       });
@@ -164,11 +208,11 @@ var Parrot = function () {
   }, {
     key: "listBucket",
     value: function listBucket() {
-      var _ref6 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var _ref7 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      var _ref6$bucket = _ref6.bucket,
-          bucket = _ref6$bucket === undefined ? "test-jchery" : _ref6$bucket,
-          rest = _objectWithoutProperties(_ref6, ["bucket"]);
+      var _ref7$bucket = _ref7.bucket,
+          bucket = _ref7$bucket === undefined ? "test-jchery" : _ref7$bucket,
+          rest = _objectWithoutProperties(_ref7, ["bucket"]);
 
       var s3Bucket = new S3({
         params: { Bucket: bucket },
