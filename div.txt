@@ -5,3 +5,6 @@ https://www.npmjs.com/package/node-lambda
 https://medium.com/@anaptfox/getting-started-with-amazon-polly-using-node-js-345e84dbd23d
 http://docs.amazonaws.cn/en_us/AWSJavaScriptSDK/guide/node-examples.html
 https://www.w3schools.com/nodejs/met_buffer_concat.asp
+https://aws.amazon.com/fr/blogs/machine-learning/convert-your-text-into-an-mp3-file-with-amazon-polly-and-a-simple-python-script/
+http://russmatney.com/techsposure/what-i-am-using-aws-lambda-for/
+https://github.com/agentzh/amazon-polly-batch
