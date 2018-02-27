@@ -14,17 +14,6 @@ var JSSoup = require("jssoup").default;
 var MD5 = require("md5");
 var he = require("he");
 
-function requiredParam(param) {
-  var requiredParamError = new Error("Required parameter, \"" + param + "\" is missing.");
-
-  // preserve original stack trace
-  if (typeof Error.captureStackTrace === "function") {
-    Error.captureStackTrace(requiredParamError, requiredParam);
-  }
-
-  throw requiredParamError;
-}
-
 var Parrot = function () {
   function Parrot() {
     _classCallCheck(this, Parrot);
@@ -66,7 +55,7 @@ var Parrot = function () {
           parts.push(res[0]);
           crt = crt.replace(regex, "");
         } else {
-          part.push(crt);
+          parts.push(crt);
           crt = "";
         }
       }
@@ -139,13 +128,47 @@ var Parrot = function () {
       });
     }
   }, {
-    key: "listBucket",
-    value: function listBucket() {
+    key: "saveToBucket",
+    value: function saveToBucket() {
       var _ref5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
       var _ref5$bucket = _ref5.bucket,
           bucket = _ref5$bucket === undefined ? "test-jchery" : _ref5$bucket,
-          rest = _objectWithoutProperties(_ref5, ["bucket"]);
+          mp3 = _ref5.mp3,
+          md5 = _ref5.md5,
+          uid = _ref5.uid,
+          rest = _objectWithoutProperties(_ref5, ["bucket", "mp3", "md5", "uid"]);
+
+      var s3Bucket = new S3({
+        params: { Bucket: bucket },
+        apiVersion: "2006-03-01",
+        region: "eu-west-1"
+      });
+
+      var name = uid ? uid : md5;
+      var link = "http://" + bucket + ".s3-website.eu-west-1.amazonaws.com/" + name + ".mp3";
+
+      return new Promise(function (resolve, reject) {
+        s3Bucket.putObject({ Key: name + '.mp3', Body: mp3 }, function (error, s3Object) {
+          if (error) {
+            return reject(error);
+          }
+          return resolve(_extends({
+            bucket: bucket,
+            s3Object: s3Object,
+            link: link
+          }, rest));
+        });
+      });
+    }
+  }, {
+    key: "listBucket",
+    value: function listBucket() {
+      var _ref6 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      var _ref6$bucket = _ref6.bucket,
+          bucket = _ref6$bucket === undefined ? "test-jchery" : _ref6$bucket,
+          rest = _objectWithoutProperties(_ref6, ["bucket"]);
 
       var s3Bucket = new S3({
         params: { Bucket: bucket },
