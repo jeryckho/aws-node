@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "babel ./lib/parrot/src/index.js > ./lib/parrot/index.js && node test.js",
+    "test": "babel ./lib/parrot/src/index.js > ./parrot.js && node test.js",
     "start": "node index.js",
-    "prepare": "babel ./lib/parrot/src/index.js > ./lib/parrot/index.js",
+    "prepare": "babel ./lib/parrot/src/index.js > ./parrot.js",
     "watch": "babel-watch -w ./lib/parrot/ test.js"
   },
   "keywords": [],
