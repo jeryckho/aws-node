@@ -3,6 +3,7 @@ var P = require("./parrot.js");
 exports.handler = (event, context, callback) => {
   return Promise.resolve(event)
     .then(obj => P.cleanHtml(obj))
+    .then(obj => P.mkMD5(obj))
     .then(obj => P.checkInBucket(obj))
     .then(
       obj => obj.found

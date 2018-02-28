@@ -56,7 +56,7 @@ var Parrot = function () {
       var list = void 0,
           md5 = void 0;
       if (Array.isArray(text)) {
-        list = text.slice();
+        list = text.slice(0);
       } else {
         list = [text];
       }
@@ -75,14 +75,60 @@ var Parrot = function () {
       }, rest);
     }
   }, {
-    key: "splitText",
-    value: function splitText() {
+    key: "splitSSML",
+    value: function splitSSML() {
       var _ref3 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
       var text = _ref3.text,
+          title = _ref3.title,
+          chapo = _ref3.chapo,
           _ref3$limit = _ref3.limit,
-          limit = _ref3$limit === undefined ? 1000 : _ref3$limit,
-          rest = _objectWithoutProperties(_ref3, ["text", "limit"]);
+          limit = _ref3$limit === undefined ? 1500 : _ref3$limit,
+          rest = _objectWithoutProperties(_ref3, ["text", "title", "chapo", "limit"]);
+
+      var list = void 0;
+      if (Array.isArray(text)) {
+        list = text.slice(0);
+      } else {
+        list = [text];
+      }
+      if (chapo) {
+        list.unshift(chapo);
+      }
+      if (title) {
+        list.unshift(title);
+      }
+
+      //TODO
+
+      // list.reduce((acc, crt, idx, arr) => {
+      //   let len = crt.length;
+      //   if (acc.size + len >= limit) {
+      //     acc.size = 0;
+      //     acc.res.push(acc.stack)
+      //     acc.stack = '';
+      //   }
+      // }, { stack :'', size: 0, res: [] });
+
+      // // for(let i = 0, len = list.length; i < len; ++i) {
+
+      // // }
+
+      return _extends({
+        title: title,
+        text: text,
+        chapo: chapo
+      }, rest);
+    }
+  }, {
+    key: "splitText",
+    value: function splitText() {
+      var _ref4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      var text = _ref4.text,
+          _ref4$limit = _ref4.limit,
+          limit = _ref4$limit === undefined ? 1000 : _ref4$limit,
+          rest = _objectWithoutProperties(_ref4, ["text", "limit"]);
 
       var regex = new RegExp("^[^]{" + limit + "}[^\\.]+\\.");
       var parts = [];
@@ -119,12 +165,12 @@ var Parrot = function () {
     value: function textToSpeech() {
       var _this = this;
 
-      var _ref4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var _ref5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      var text = _ref4.text,
-          _ref4$speaker = _ref4.speaker,
-          speaker = _ref4$speaker === undefined ? "Celine" : _ref4$speaker,
-          rest = _objectWithoutProperties(_ref4, ["text", "speaker"]);
+      var text = _ref5.text,
+          _ref5$speaker = _ref5.speaker,
+          speaker = _ref5$speaker === undefined ? "Celine" : _ref5$speaker,
+          rest = _objectWithoutProperties(_ref5, ["text", "speaker"]);
 
       return Promise.resolve({ text: text }).then(function (obj) {
         return console.log("Split") || _this.splitText(obj);
@@ -141,12 +187,12 @@ var Parrot = function () {
   }, {
     key: "partToSpeech",
     value: function partToSpeech() {
-      var _ref5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var _ref6 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      var part = _ref5.part,
-          _ref5$speaker = _ref5.speaker,
-          speaker = _ref5$speaker === undefined ? "Celine" : _ref5$speaker,
-          rest = _objectWithoutProperties(_ref5, ["part", "speaker"]);
+      var part = _ref6.part,
+          _ref6$speaker = _ref6.speaker,
+          speaker = _ref6$speaker === undefined ? "Celine" : _ref6$speaker,
+          rest = _objectWithoutProperties(_ref6, ["part", "speaker"]);
 
       var polly = new Polly({
         apiVersion: "2016-06-10",
@@ -172,13 +218,13 @@ var Parrot = function () {
   }, {
     key: "checkInBucket",
     value: function checkInBucket() {
-      var _ref6 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var _ref7 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      var _ref6$bucket = _ref6.bucket,
-          bucket = _ref6$bucket === undefined ? "test-jchery" : _ref6$bucket,
-          md5 = _ref6.md5,
-          uid = _ref6.uid,
-          rest = _objectWithoutProperties(_ref6, ["bucket", "md5", "uid"]);
+      var _ref7$bucket = _ref7.bucket,
+          bucket = _ref7$bucket === undefined ? "test-jchery" : _ref7$bucket,
+          md5 = _ref7.md5,
+          uid = _ref7.uid,
+          rest = _objectWithoutProperties(_ref7, ["bucket", "md5", "uid"]);
 
       var s3Bucket = new S3({
         params: { Bucket: bucket },
@@ -214,14 +260,14 @@ var Parrot = function () {
   }, {
     key: "saveToBucket",
     value: function saveToBucket() {
-      var _ref7 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var _ref8 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      var _ref7$bucket = _ref7.bucket,
-          bucket = _ref7$bucket === undefined ? "test-jchery" : _ref7$bucket,
-          mp3 = _ref7.mp3,
-          md5 = _ref7.md5,
-          uid = _ref7.uid,
-          rest = _objectWithoutProperties(_ref7, ["bucket", "mp3", "md5", "uid"]);
+      var _ref8$bucket = _ref8.bucket,
+          bucket = _ref8$bucket === undefined ? "test-jchery" : _ref8$bucket,
+          mp3 = _ref8.mp3,
+          md5 = _ref8.md5,
+          uid = _ref8.uid,
+          rest = _objectWithoutProperties(_ref8, ["bucket", "mp3", "md5", "uid"]);
 
       var s3Bucket = new S3({
         params: { Bucket: bucket },
@@ -250,11 +296,11 @@ var Parrot = function () {
   }, {
     key: "listBucket",
     value: function listBucket() {
-      var _ref8 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var _ref9 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      var _ref8$bucket = _ref8.bucket,
-          bucket = _ref8$bucket === undefined ? "test-jchery" : _ref8$bucket,
-          rest = _objectWithoutProperties(_ref8, ["bucket"]);
+      var _ref9$bucket = _ref9.bucket,
+          bucket = _ref9$bucket === undefined ? "test-jchery" : _ref9$bucket,
+          rest = _objectWithoutProperties(_ref9, ["bucket"]);
 
       var s3Bucket = new S3({
         params: { Bucket: bucket },
