@@ -68,6 +68,15 @@ var Parrot = function () {
       }, rest);
     }
   }, {
+    key: "mergeMp3s",
+    value: function mergeMp3s(mp3Array) {
+      objs.reduce(function (mp3s, obj) {
+        mp3s.push(obj.mp3);
+        return mp3s;
+      }, []);
+      return Buffer.concat(mp3s);
+    }
+  }, {
     key: "textToSpeech",
     value: function textToSpeech() {
       var _this = this;
@@ -85,13 +94,8 @@ var Parrot = function () {
         return console.log("Speech") || Promise.all(obj.parts.map(function (part) {
           return _this.partToSpeech({ part: part, speaker: speaker });
         }));
-      }).then(function (objs) {
-        return console.log("Reduce") || objs.reduce(function (mp3s, obj) {
-          mp3s.push(obj.mp3);
-          return mp3s;
-        }, []);
-      }).then(function (mp3s) {
-        return console.log("Concat") || Buffer.concat(mp3s);
+      }).then(function (mp3Array) {
+        return console.log("Merge") || _this.mergeMp3s(mp3Array);
       }).then(function (mp3) {
         return console.log("Ret") || _extends({ text: text, mp3: mp3 }, rest);
       });
