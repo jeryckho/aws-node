@@ -27,8 +27,7 @@ var Parrot = function () {
       var html = _ref.html,
           rest = _objectWithoutProperties(_ref, ["html"]);
 
-      var text = void 0,
-          md5 = void 0;
+      var text = void 0;
       if (Array.isArray(html)) {
         text = html.map(function (htm) {
           var soup = new JSSoup(htm);
@@ -135,6 +134,7 @@ var Parrot = function () {
         if (len < 80) {
           obj = _this.addSentence({
             txt: txt,
+            limit: limit,
             stack: obj.stack,
             bTitre: true,
             bBreak: true
@@ -144,6 +144,7 @@ var Parrot = function () {
             var trouve = txt.match(phrase);
             obj = _this.addSentence({
               txt: trouve[0],
+              limit: limit,
               stack: obj.stack
             });
             txt = txt.replace(phrase, "");
@@ -151,6 +152,7 @@ var Parrot = function () {
           if (txt.length > 0) {
             obj = _this.addSentence({
               txt: txt,
+              limit: limit,
               stack: obj.stack,
               bBreak: true
             });
@@ -206,11 +208,11 @@ var Parrot = function () {
   }, {
     key: "mergeMp3s",
     value: function mergeMp3s(mp3Array) {
-      objs.reduce(function (mp3s, obj) {
+      var mp3List = mp3Array.reduce(function (mp3s, obj) {
         mp3s.push(obj.mp3);
         return mp3s;
       }, []);
-      return Buffer.concat(mp3s);
+      return Buffer.concat(mp3List);
     }
   }, {
     key: "textToSSMLSpeech",

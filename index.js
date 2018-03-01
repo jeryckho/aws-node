@@ -9,7 +9,7 @@ exports.handler = (event, context, callback) => {
       obj => obj.found
           ? obj
           : Promise.resolve(obj)
-              .then(obj => P.textToSpeechSSML(obj))
+              .then(obj => P.textToSSMLSpeech(obj))
               .then(obj => P.saveToBucket(obj))
     )
     .then(obj => callback(null, obj))
