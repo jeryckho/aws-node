@@ -222,11 +222,13 @@ var Parrot = function () {
       var _ref6 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
       var text = _ref6.text,
+          title = _ref6.title,
+          chapo = _ref6.chapo,
           _ref6$speaker = _ref6.speaker,
           speaker = _ref6$speaker === undefined ? "Celine" : _ref6$speaker,
-          rest = _objectWithoutProperties(_ref6, ["text", "speaker"]);
+          rest = _objectWithoutProperties(_ref6, ["text", "title", "chapo", "speaker"]);
 
-      return Promise.resolve({ text: text }).then(function (obj) {
+      return Promise.resolve({ text: text, title: title, chapo: chapo }).then(function (obj) {
         return console.log("Split") || _this2.splitSSML(obj);
       }).then(function (obj) {
         return console.log("Speech") || Promise.all(obj.parts.map(function (part) {
