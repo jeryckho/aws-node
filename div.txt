@@ -8,3 +8,9 @@ https://www.w3schools.com/nodejs/met_buffer_concat.asp
 https://aws.amazon.com/fr/blogs/machine-learning/convert-your-text-into-an-mp3-file-with-amazon-polly-and-a-simple-python-script/
 http://russmatney.com/techsposure/what-i-am-using-aws-lambda-for/
 https://github.com/agentzh/amazon-polly-batch
+
+{
+  "title": String,
+  "chapo": String,
+  "html": String | StringArray
+}

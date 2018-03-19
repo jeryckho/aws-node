@@ -1,6 +1,9 @@
 var P = require("./parrot.js");
 
 exports.handler = (event, context, callback) => {
+  if ((event.body) && (!event.html)) {
+    event = JSON.parse(event.body);
+  }
   return Promise.resolve(event)
     .then(obj => P.cleanHtml(obj))
     .then(obj => P.mkMD5(obj))
@@ -12,6 +15,9 @@ exports.handler = (event, context, callback) => {
               .then(obj => P.textToSSMLSpeech(obj))
               .then(obj => P.saveToBucket(obj))
     )
-    .then(obj => callback(null, obj))
-    .catch(err => callback(err));
+    .then(obj => {
+      obj.success = true;
+      return callback(null, obj)
+    })
+    .catch(err => callback({success:false, err}));
 };

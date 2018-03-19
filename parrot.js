@@ -111,7 +111,7 @@ var Parrot = function () {
           title = _ref4.title,
           chapo = _ref4.chapo,
           _ref4$limit = _ref4.limit,
-          limit = _ref4$limit === undefined ? 1500 : _ref4$limit,
+          limit = _ref4$limit === undefined ? 1000 : _ref4$limit,
           rest = _objectWithoutProperties(_ref4, ["text", "title", "chapo", "limit"]);
 
       var list = void 0;
