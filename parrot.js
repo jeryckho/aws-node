@@ -84,6 +84,8 @@ var Parrot = function () {
           limit = _ref3$limit === undefined ? 1500 : _ref3$limit,
           rest = _objectWithoutProperties(_ref3, ["txt", "bTitre", "bBreak", "stack", "limit"]);
 
+      txt = txt.replace(/&/g, '&amp;');
+      txt = txt.replace(/</g, '&lt;');
       if (txt.length + stack.size >= limit) {
         stack.res.push(stack.acc);
         stack.size = txt.length;
@@ -111,7 +113,7 @@ var Parrot = function () {
           title = _ref4.title,
           chapo = _ref4.chapo,
           _ref4$limit = _ref4.limit,
-          limit = _ref4$limit === undefined ? 1000 : _ref4$limit,
+          limit = _ref4$limit === undefined ? 1250 : _ref4$limit,
           rest = _objectWithoutProperties(_ref4, ["text", "title", "chapo", "limit"]);
 
       var list = void 0;
@@ -127,7 +129,7 @@ var Parrot = function () {
         list.unshift(title);
       }
 
-      var phrase = /^([^]*?[.?!;:]+['")]*)/;
+      var phrase = /^([^]*?[.?!;:•]+['")]*)/;
       var ssmlLines = list.reduce(function (stack, txt, idx, arr) {
         var obj = { stack: stack };
         var len = txt.length;
@@ -233,7 +235,9 @@ var Parrot = function () {
       }).then(function (obj) {
         return console.log("Speech") || Promise.all(obj.parts.map(function (part) {
           return _this2.partToSpeech({ part: part, speaker: speaker, type: "ssml" });
-        }));
+        })).catch(function (err) {
+          return Promise.reject({ obj: obj, err: err });
+        });
       }).then(function (mp3Array) {
         return console.log("Merge") || _this2.mergeMp3s(mp3Array);
       }).then(function (mp3) {
