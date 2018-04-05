@@ -14,6 +14,7 @@ exports.handler = (event, context, callback) => {
           ? obj
           : Promise.resolve(obj)
               .then(obj => P.textToSSMLSpeech(obj))
+              .then(obj => P.tagMP3(obj))
               .then(obj => P.saveToBucket(obj))
     )
     .then(obj => {
